@@ -1,7 +1,3 @@
-# THIS WORKS NOW! v2
-# to do:
-# modify x axis to trim CIs for Physical health panel B, ageing panel B, mental health panels a and b
-# make Y axis trait names bigger in each plot and the estimates and CIs more visible (thicker)
 
 import pandas as pd
 import matplotlib.pyplot as plt
