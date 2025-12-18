@@ -1,4 +1,4 @@
-### ENIGMA Brain Age Scripts
+### ENIGMA brain age scripts
 
 This folder provides scripts to derive Han et al. (2021; PMID: 32424236) brain age gap (BAG) and to perform a genome-wide association study (GWAS) on it. There are two main components: phenotypic scripts and genetic (GWAS) scripts.
 
