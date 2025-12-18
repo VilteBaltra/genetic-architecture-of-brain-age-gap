@@ -18,6 +18,6 @@ This folder provides scripts to derive Han et al. (2021; PMID: 32424236) brain a
 
 ---
 
-*Notes*
+**Notes**
 - Both folders are approximately 1 GB as they include Singularity containers.  
 - For UK Biobank–specific brain age estimation and GWAS code, see: [pjawinski/enigma_brainage](https://github.com/pjawinski/enigma_brainage)
