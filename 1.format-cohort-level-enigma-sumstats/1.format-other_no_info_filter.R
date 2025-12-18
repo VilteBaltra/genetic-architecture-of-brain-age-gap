@@ -1,5 +1,3 @@
-.libPaths(c("/campaign/VB-FM5HPC-001/Vilte/pkgs", "/apps/hc/software/2021a/R/4.1.0-foss-2021b/lib64/R/library"))
-
 library(qqman)
 library(data.table)
 library(tidyverse)
