@@ -1,4 +1,4 @@
-### Scripts Overview
+### Scripts overview
 
 1. `1.METAL-meta-analysis-info0.6-ENIGMAcohorts-noUKBB.sh`
 - Runs METAL meta-analysis of ENIGMA cohorts (all smaller sample size cohorts, excluding UKBB).
