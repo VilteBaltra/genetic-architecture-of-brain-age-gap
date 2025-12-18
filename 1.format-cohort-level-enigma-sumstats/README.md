@@ -1,4 +1,4 @@
-This folder contains scripts that help to format GWAS summary
+This folder contains scripts that help format GWAS summary
 statistics.  
   
 \# The first scripts add rsIDs if missing, add INFO/rsq column, and run
