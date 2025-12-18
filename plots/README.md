@@ -3,8 +3,7 @@
 
 #### Figure
 
-- Figure_1_flowchart_map.jpg – Flowchart of the study design and
-  data processing
+- Figure_1_flowchart_map.jpg – Flowchart of the study design
 
 #### Python scripts
 
