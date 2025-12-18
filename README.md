@@ -12,7 +12,7 @@ This repository contains scripts and workflows for estimating **brain age gaps (
 
 ---
 
-## Repository Structure
+## Repository structure
 
 | Folder | Description |
 |--------|-------------|
