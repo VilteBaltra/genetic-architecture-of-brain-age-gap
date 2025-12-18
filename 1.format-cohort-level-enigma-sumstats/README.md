@@ -13,3 +13,26 @@ info or Rsq \> 0.6
 \# The third script creates a Manhattan plot for each cohort
 individually  
 3.manhattan-plot-per-cohort.R  
+
+
+### Scripts Overview
+
+1. `1.loop-script-format-Rsq.R` & `1.loop-script-format-info.R`
+- Adds rsIDs if missing  
+- Adds INFO/RSQ columns (differs per cohort, hence, separate scripts)  
+- Performs basic quality control (QC)  
+- Reads in helper functions from the `functions` folder
+
+2. `2.info-filter-0.6.R`
+- Loops through different cohorts  
+- Filters SNPs with INFO or RSQ > 0.6
+
+3. `3.manhattan-plot-per-cohort.R`
+- Generates Manhattan plots for each cohort individually
+
+---
+
+**Notes**
+- Ensure the `functions` folder is available before running scripts  
+- Scripts should be executed in the order listed  
+- R environment and required packages must be installed
