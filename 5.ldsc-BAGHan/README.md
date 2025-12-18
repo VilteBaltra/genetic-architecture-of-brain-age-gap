@@ -1,4 +1,4 @@
-### Scripts Overview
+### Scripts overview
 
 `1.rg-other-traits-enigma.sh`
 - Munges GWAS summary statistics.  
