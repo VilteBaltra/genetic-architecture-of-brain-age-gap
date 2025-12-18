@@ -1,13 +1,13 @@
-\# The first script munges GWAS summary statistics and runs LDSC
-regression between BAG factor and 32 other traits  
-1.rg-other-traits-redo-updated.sh  
-  
-\# The second script extracts the relevant output for plotting /
-supplementary table  
-2.extract_rg_to_table_redo-updated.sh  
-  
-  
-\# The third script first munges each of the 6 individual BAG GWASs and
-obtains heritability estimates. Then runs LDSC regression among the 6
-BAG GWASs  
-3.heritability-and-rg-brainages.py
+## Scripts Overview
+
+### 1. `1.rg-other-traits.sh`
+- Munges GWAS summary statistics.  
+- Runs LDSC regression between the BAG factor and 32 other traits.  
+
+### 2. `2.extract_rg_to_table.sh`
+- Extracts the relevant output from LDSC for plotting and supplementary tables.  
+
+### 3. `3.heritability-and-rg-brainages.py`
+- Munges each of the 6 individual BAG GWASs.  
+- Obtains heritability estimates.  
+- Runs LDSC regression among the 6 BAG GWASs.  
