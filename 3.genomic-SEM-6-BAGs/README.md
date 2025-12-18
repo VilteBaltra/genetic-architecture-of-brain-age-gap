@@ -9,7 +9,7 @@ The workflow includes:
 
 ---
 
-## Overview of Input GWAS
+## Overview of input GWASs
 
 The following Brain Age Gap GWAS were included:
 
@@ -26,7 +26,7 @@ All traits are treated as **continuous** and analysed using **OLS**.
 
 ---
 
-## Software Requirements
+## Software requirements
 
 - R (≥ 4.1 recommended)
 - [`GenomicSEM`](https://github.com/GenomicSEM/GenomicSEM)
