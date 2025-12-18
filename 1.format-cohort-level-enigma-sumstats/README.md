@@ -1,4 +1,4 @@
-### Scripts Overview
+### Scripts overview
 
 1. `1.loop-script-format-Rsq.R` & `1.loop-script-format-info.R`
 - Adds rsIDs if missing  
