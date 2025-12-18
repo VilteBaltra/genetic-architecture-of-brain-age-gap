@@ -8,9 +8,6 @@ This folder provides scripts to derive Han et al. (2021; PMID: 32424236) brain a
 - Folder: `ENIGMA-brainage-local`  
 - Purpose: Derives Han's brain age gap phenotype.  
 - Instructions: See the `instructions` folder within `ENIGMA-brainage-local`.  
-- Notes: 
-  - The most time-consuming step is preparing the `Covariates.csv` file and the three FreeSurfer input files.  
-  - Once inputs are ready, the analysis runs quickly.  
 
 ---
 
