@@ -1,10 +1,10 @@
 
 ### Contents
 
-#### Figures
+#### Figure
 
 - Figure_1_flowchart_map.jpg – Flowchart of the study design and
-  data processing.
+  data processing
 
 #### Python Scripts
 
