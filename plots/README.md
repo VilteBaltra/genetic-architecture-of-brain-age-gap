@@ -26,5 +26,5 @@
 
 ### Jupyter Notebooks
 
-- **plots_rg_MR_PGS_trio.ipynb** – interactive notebook generating plots
+- plots_rg_MR_PGS_trio.ipynb – interactive notebook generating plots
   for genetic correlations, MR, and PGS-trio analyses
