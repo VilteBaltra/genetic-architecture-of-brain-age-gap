@@ -20,7 +20,7 @@ This repository contains scripts and workflows for estimating **brain age gaps (
 | `1.format-cohort-level-enigma-sumstats` | Formatting and QC of GWAS summary statistics. |
 | `2.metal-GWAS-meta-analysis-enigma` | METAL-based meta-analysis of ENIGMA GWAS (BAG Han). |
 | `3.genomic-SEM-6-BAGs` | Genomic structural equation modeling of six BAG GWASs. |
-| `4.ldsc-BAGfactor` | LDSC regression between BAG factor and 32 other traits. |
+| `4.ldsc-BAGfactor` | LDSC regression between BAG factor and 30+ other traits. |
 | `5.ldsc-BAGHan` | LDSC analyses specifically for Han (ENIGMA) BAG. |
 | `6.Mendelian-randomisation` | Forward and reverse Mendelian randomisation analyses. |
 | `7.polygenic-scores` | Scripts to derive polygenic scores in independent cohorts. |
