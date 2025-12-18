@@ -6,7 +6,7 @@ This repository contains scripts and workflows for estimating brain age gaps (BA
 
 #### Repository structure:
 
-**0.run-cohort-level-enigma-GWAS**
+**0.run-cohort-level-enigma-GWAS**   
    Scripts for deriving Han’s BAG phenotype and running GWAS in individual cohorts.
 
 **1.format-cohort-level-enigma-sumstats**  
