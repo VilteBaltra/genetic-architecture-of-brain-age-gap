@@ -34,7 +34,7 @@ UK Biobank–specific code for brain age estimation, GWAS, and PheWAS (including
 2. Make the main script executable:
 
 ```bash
-chmod +x pgs.predict.sh # make pgs.predict.sh executable
+chmod +x pgs.predict.sh
 ```
 
 3. Run to generate PGS scores
