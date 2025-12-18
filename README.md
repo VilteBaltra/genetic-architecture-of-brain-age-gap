@@ -1,4 +1,4 @@
-# Genetic Architecture of Brain Age Gap
+# Genetic architecture of brain age gap
 
 This repository contains scripts and workflows for estimating brain age gaps (BAG), performing GWAS, meta-analyses, genetic correlation analyses, Mendelian randomisation, and polygenic score derivation.  
 
