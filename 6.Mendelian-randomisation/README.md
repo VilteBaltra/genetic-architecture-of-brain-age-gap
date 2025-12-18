@@ -1,4 +1,4 @@
-### Mendelian Randomisation 
+### Mendelian randomisation 
 
 This folder contains code for **bidirectional Mendelian randomisation (MR)** analyses between the **BAG GWASs** (BAG factor + 6 individual BAG GWASs) and external traits.
 
