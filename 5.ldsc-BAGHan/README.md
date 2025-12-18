@@ -1,1 +1,1 @@
-The first script (1.rg-other-traits-enigma.sh) munges GWAS summary statistics and runs LDSC regression between BAG Han (ENIGMA) and 32 other traits. The second script (2.extract_rg_to_table_enigma.sh) extracts the relevant output for plotting supplementary table.
+The first script (*1.rg-other-traits-enigma.sh*) munges GWAS summary statistics and runs LDSC regression between BAG Han (ENIGMA) and 32 other traits. The second script (*2.extract_rg_to_table_enigma.sh*) extracts the relevant output for plotting supplementary table.
