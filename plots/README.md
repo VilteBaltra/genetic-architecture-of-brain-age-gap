@@ -24,7 +24,7 @@
 - plot-reverse-MR-inputGWASs-supp-fig-ivw.R – plots reverse MR results for all 6 input
   GWASs (supplementary figure)
 
-### Jupyter Notebooks
+#### Jupyter notebook
 
 - plots_rg_MR_PGS_trio.ipynb – interactive notebook generating plots
   for genetic correlations, MR, and PGS-trio analyses
