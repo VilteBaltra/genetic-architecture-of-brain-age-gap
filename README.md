@@ -30,6 +30,4 @@ This repository contains scripts and workflows for estimating **brain age gaps (
 
 ## Notes
 
-- Large files (e.g., Singularity containers) are tracked via **Git LFS**.  
-- Most scripts require pre-formatted input files; see instructions within each folder.  
 - Complementary UK Biobank–specific brain age workflows: [pjawinski/enigma_brainage](https://github.com/pjawinski/enigma_brainage).
