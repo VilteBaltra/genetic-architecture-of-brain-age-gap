@@ -1,3 +1,35 @@
+# ENIGMA Brain Age Scripts
+
+This folder contains scripts for deriving and analyzing Han's brain age gap (BAG) in ENIGMA cohorts. There are two main components: phenotypic scripts and genetic (GWAS) scripts.
+
+---
+
+## 1. Phenotypic Scripts
+- Folder: `ENIGMA-brainage-local.zip`  
+- Purpose: Derives Han's brain age gap phenotype.  
+- Instructions: See the `instructions` folder within `ENIGMA-brainage-local`.  
+- Notes: 
+  - The most time-consuming step is preparing the `Covariates.csv` file and the three FreeSurfer input files.  
+  - Once inputs are ready, the analysis runs quickly.  
+
+---
+
+## 2. Genetic Scripts
+- Folder: `ENIGMA-brainage-GWAS-local.zip`  
+- Purpose: Runs the BAGHan ENIGMA GWAS after phenotypic analysis is complete.  
+- Instructions: Follow `0.BrainAgeGWAS_genetic_analysis_instructions_20241216.docx`.  
+
+---
+
+## Notes
+- Both folders are approximately 1 GB as they include Singularity containers.  
+- For UK Biobank–specific brain age estimation and GWAS code, see: [pjawinski/enigma_brainage](https://github.com/pjawinski/enigma_brainage)
+
+
+
+
+
+
 Here you will find two folders, one containing the **phenotypic scripts**
 ('ENIGMA-brainage-local.zip' —\> derives Han’s brain age gap phenotype)
 and another one containing **genetic scripts** ('ENIGMA-brainage-GWAS-local.zip' —\> runs the
