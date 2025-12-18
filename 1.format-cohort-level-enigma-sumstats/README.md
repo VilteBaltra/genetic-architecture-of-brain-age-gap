@@ -3,7 +3,7 @@
 1. `1.loop-script-format-Rsq.R` & `1.loop-script-format-info.R`
 - Adds rsIDs if missing  
 - Adds INFO/RSQ columns (differs per cohort, hence, separate scripts)  
-- Performs basic quality control (QC)  
+- Performs basic quality control 
 - Reads in helper functions from the `functions` folder
 
 2. `2.info-filter-0.6.R`
