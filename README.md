@@ -1,13 +1,13 @@
 # Genetic architecture of brain age gap
 
-This repository contains scripts and workflows for estimating brain age gaps (BAG), performing GWAS, meta-analyses, genetic correlation analyses, Mendelian randomisation, and polygenic score derivation.  
+This repository contains scripts and workflows for estimating brain age gaps (BAG), performing genome-wide association studies (GWASs) in individual cohorts, meta-analysing GWAS summary statistics, running genetic correlations, Mendelian randomisation, and polygenic score analyses.  
 
 ---
 
 **Repository structure**
 
 **0.run-cohort-level-enigma-GWAS**  
-   Scripts for deriving Han’s brain age gap (BAG) phenotype and running GWAS in individual cohorts.
+   Scripts for deriving Han’s BAG phenotype and running GWAS in individual cohorts.
 
 **1.format-cohort-level-enigma-sumstats**  
    Formatting GWAS summary statistics.
