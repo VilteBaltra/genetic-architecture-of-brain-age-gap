@@ -1,6 +1,6 @@
-Here you will find two folders, one containing the phenotypic scripts
+Here you will find two folders, one containing the **phenotypic scripts**
 ('ENIGMA-brainage-local.zip' —\> derives Han’s brain age gap phenotype)
-and another one genetic ('ENIGMA-brainage-GWAS-local.zip' —\> runs the
+and another one containing **genetic scripts** ('ENIGMA-brainage-GWAS-local.zip' —\> runs the
 BAGHan ENIGMA GWAS).   
   
 <u>1. Phenotypic scripts</u>  
