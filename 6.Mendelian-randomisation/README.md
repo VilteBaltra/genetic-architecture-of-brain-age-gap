@@ -15,7 +15,7 @@ This folder contains code for **bidirectional Mendelian Randomization (MR)** ana
 - MRlap (accounts for sample overlap, winner’s curse, and weak instruments)
 
 All analyses are run **in both directions**:
-- BAG → Trait  
+- BAG → trait  
 - Trait → BAG
 
 #### Instrument Selection
