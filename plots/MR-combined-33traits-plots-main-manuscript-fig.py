@@ -11,23 +11,23 @@ import matplotlib.patches as mpatches
 trait_groups = {
     'Mental health': [
         'Schizophrenia', 'Major depressive disorder', "Alzheimer's disease",
-        'Bipolar disorder', 'ADHD', 'Autism spectrum disorder',
+        'Bipolar disorder', 'ADHD', 'Autism spectrum disorder*',
         "Parkinson's disease", 'Loneliness / social isolation'
     ],
     'Physical health': [
         'Type 2 diabetes', 'Body mass index', 'C-reactive protein',
-        'Systolic blood pressure', 'Diastolic blood pressure', 'Pulse pressure',
-        'Resting heart rate', 'Coronary artery disease', 'Glycated hemoglobin (HbA1c)', 
+        'Systolic blood pressure*', 'Diastolic blood pressure*', 'Pulse pressure',
+        'Resting heart rate', 'Coronary artery disease', 'Glycated hemoglobin (HbA1c)',
         'Plasminogen activator inhibitor-1', 'Granulocyte proportion'
     ],
     'Aging': [
         'Metabolic age gap', 'GrimAge clock', 'PhenoAge clock', 
         'Intrinsic epigenetic age acceleration', 'Hannum clock',
         'Cardiovascular age gap', 'Pulmonary age gap', 'Renal age gap',
-        'Immune age gap', 'Musculoskeletal age gap', 'Longevity (90th percentile)'
+        'Immune age gap', 'Musculoskeletal age gap', 'Longevity (90th percentile)*'
     ],
     'Lifestyle': [
-        'Smoking initiation', 'Cigarettes per day', 'Sleep duration'
+        'Smoking initiation*', 'Cigarettes per day', 'Sleep duration*'
     ]
 }
 
@@ -42,8 +42,8 @@ method_colors = {
     'MR Egger': colors_hex_cat[2],
 }
 legend_handles = [mpatches.Patch(color=color, label=method) for method, color in method_colors.items()]
-fontsize_ticks = 18
-fontsize_labels = 18
+fontsize_ticks = 20
+fontsize_labels = 20
 cap_length = 0.05
 method_offset = {'Inverse variance weighted': -0.25, 'Weighted median': 0, 'MR Egger': 0.25}
 
@@ -102,10 +102,19 @@ trait_groups = sorted(set(df_a['group'].dropna().unique()).union(
 
 # === Loop per trait group ===
 
+# Define custom x-axis limits for Panel A (forward MR)
+x_limits_a_dict = {
+    'Physical health': (-0.25, 0.25),
+    'Aging': (-0.3, 0.3),
+    'Mental health': (-0.7, 0.7),
+    'Lifestyle': (-0.4, 0.4)  # optional
+}
+
+# Define custom x-axis limits for Panel B (reverse MR)
 x_limits_b_dict = {
-    'Physical health': (-1.5, 1.5),
-    'Aging': (-0.8, 0.8),
-    'Mental health': (-3.6, 3.6) 
+    'Physical health': (-2, 2),
+    'Aging': (-1.9, 1.9),
+    'Mental health': (-3.6, 3.6)
     #'Lifestyle': (-1.6, 1.6)
 }
 
@@ -137,14 +146,20 @@ for group_name in trait_groups:
     # ---------------------------------------------------------------------
     # PANEL A — FORWARD MR
     # ---------------------------------------------------------------------
-    max_abs_a = max(abs(df_a_group['lCI'].min()), abs(df_a_group['hCI'].max()))
-    x_min_a = -max_abs_a * 1.05
-    x_max_a = max_abs_a * 1.05
+    # group-specific trimming
+    if group_name in x_limits_a_dict:
+        x_min_a, x_max_a = x_limits_a_dict[group_name]
+    else:
+        max_abs_a = max(abs(df_a_group['lCI'].min()), abs(df_a_group['hCI'].max()))
+        x_min_a = -max_abs_a * 1.05
+        x_max_a = max_abs_a * 1.05
+    
     clip_buffer_a = 0.02 * (x_max_a - x_min_a)
 
     x_min_buf_a = x_min_a + clip_buffer_a
     x_max_buf_a = x_max_a - clip_buffer_a
     arrow_gap_a = 0.01
+
 
     for _, row in df_a_group.iterrows():
         y = row['y']
@@ -156,32 +171,63 @@ for group_name in trait_groups:
         is_clip_l = ci_l < x_min_buf_a
         is_clip_r = ci_u > x_max_buf_a
 
-        ci_start = clipped_l + (arrow_gap_a if is_clip_l else 0)
-        ci_end   = clipped_u - (arrow_gap_a if is_clip_r else 0)
+        #ci_start = clipped_l + (arrow_gap_a if is_clip_l else 0)
+        #ci_end   = clipped_u - (arrow_gap_a if is_clip_r else 0)
+        ci_start = clipped_l
+        ci_end = clipped_u
+
 
         ax1.plot(row['b'], y, 'o', color=color,
                  markersize=12, markeredgewidth=2, markeredgecolor='white')
         ax1.plot([ci_start, ci_end], [y, y], color=color, linewidth=3)
 
-        # caps
-        if not is_clip_l:
-            ax1.plot([clipped_l, clipped_l], [y-0.06, y+0.06], color=color, linewidth=2)
-        else:
-            ax1.annotate('', xy=(x_min_buf_a, y), xytext=(x_min_buf_a+0.015, y),
-                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+#        # caps
+#        if not is_clip_l:
+#            ax1.plot([clipped_l, clipped_l], [y-0.06, y+0.06], color=color, linewidth=2)
+#        else:
+#            ax1.annotate('', xy=(x_min_buf_a, y), xytext=(x_min_buf_a+0.015, y),
+#                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+#
+#        if not is_clip_r:
+#            ax1.plot([clipped_u, clipped_u], [y-0.06, y+0.06], color=color, linewidth=2)
+#        else:
+#            ax1.annotate('', xy=(x_max_buf_a, y), xytext=(x_max_buf_a-0.015, y),
+#                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+#                         
+#        if is_clip_l:
+#            ax1.annotate('', xy=(clipped_l, y), xytext=(clipped_l + 0.02*(x_max_a - x_min_a), y),
+#                 arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+#        
+#        if is_clip_r:
+#            ax1.annotate('', xy=(clipped_u, y), xytext=(clipped_u - 0.02*(x_max_a - x_min_a), y),
+#                 arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
 
-        if not is_clip_r:
-            ax1.plot([clipped_u, clipped_u], [y-0.06, y+0.06], color=color, linewidth=2)
-        else:
-            ax1.annotate('', xy=(x_max_buf_a, y), xytext=(x_max_buf_a-0.015, y),
-                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+
+        arrow_length = 0.03 * (x_max_a - x_min_a)  # 3% of x-axis width
+
+        if is_clip_l:
+            ax1.annotate('',
+                         xy=(clipped_l, y),
+                         xytext=(clipped_l - arrow_length, y),
+                         arrowprops=dict(arrowstyle='<|-', color=color, lw=2, mutation_scale=15))
+
+        if is_clip_r:
+            ax1.annotate('',
+                         xy=(clipped_u, y),
+                         xytext=(clipped_u + arrow_length, y),
+                         arrowprops=dict(arrowstyle='<|-', color=color, lw=2, mutation_scale=15))
+        
 
     ax1.axvline(0, color='gray', linestyle='--')
     ax1.set_yticks(range(len(exposures_a_group)))
-    ax1.set_yticklabels(exposures_a_group, fontsize=20)
-    ax1.set_xlim(x_min_a, x_max_a)
+    ax1.set_yticklabels(exposures_a_group, fontsize=24)
+    #ax1.set_xlim(x_min_a, x_max_a)
+    x_padding_a = 0.1 * (x_max_a - x_min_a)
+    ax1.set_xlim(x_min_a - x_padding_a, x_max_a + x_padding_a)
+    
     ax1.set_xlabel("Beta (95% CI)", fontsize=20)
-    ax1.set_title("A", loc='left', fontsize=18, weight='bold')
+    ax1.tick_params(axis='x', labelsize=20)
+    #ax1.set_title("A", loc='left', fontsize=18, weight='bold')
     ax1.invert_yaxis()
 
     # ---------------------------------------------------------------------
@@ -211,36 +257,90 @@ for group_name in trait_groups:
         is_clip_l = ci_l < x_min_buf_b
         is_clip_r = ci_u > x_max_buf_b
 
-        ci_start = clipped_l + (arrow_gap_b if is_clip_l else 0)
-        ci_end   = clipped_u - (arrow_gap_b if is_clip_r else 0)
+        #ci_start = clipped_l + (arrow_gap_b if is_clip_l else 0)
+        #ci_end   = clipped_u - (arrow_gap_b if is_clip_r else 0)
+        ci_start = clipped_l
+        ci_end = clipped_u
+
 
         ax2.plot(row['b'], y, 'o', color=color,
                  markersize=12, markeredgewidth=2, markeredgecolor='white')
         ax2.plot([ci_start, ci_end], [y, y], color=color, linewidth=3)
 
-        if not is_clip_l:
-            ax2.plot([clipped_l, clipped_l], [y-0.06, y+0.06], color=color, linewidth=2)
-        else:
-            ax2.annotate('', xy=(x_min_buf_b, y), xytext=(x_min_buf_b+0.015, y),
-                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+#        if not is_clip_l:
+#            ax2.plot([clipped_l, clipped_l], [y-0.06, y+0.06], color=color, linewidth=2)
+#        else:
+#            ax2.annotate('', xy=(x_min_buf_b, y), xytext=(x_min_buf_b+0.015, y),
+#                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+#
+#        if not is_clip_r:
+#            ax2.plot([clipped_u, clipped_u], [y-0.06, y+0.06], color=color, linewidth=2)
+#        else:
+#            ax2.annotate('', xy=(x_max_buf_b, y), xytext=(x_max_buf_b-0.015, y),
+#                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+                         
+#        if is_clip_l:
+#            ax2.annotate('', xy=(clipped_l, y), xytext=(clipped_l + 0.02*(x_max_b - x_min_b), y), arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+#
+#        if is_clip_r:
+#            ax2.annotate('', xy=(clipped_u, y), xytext=(clipped_u - 0.02*(x_max_b - x_min_b), y), arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+            
+#        if is_clip_l:
+#            ax2.annotate('', xy=(clipped_l-0.05, y), xytext=(clipped_l + 0.05*(x_max_b - x_min_b), y), arrowprops=dict(arrowstyle='-|>', color=color, lw=2, mutation_scale=20))
+#
+#        if is_clip_r:
+#            ax2.annotate('', xy=(clipped_u+0.05, y), xytext=(clipped_l - 0.05*(x_max_b - x_min_b), y), arrowprops=dict(arrowstyle='-|>', color=color, lw=2, mutation_scale=20))
+#            
+            
+#        # Left arrow: tip at clipped_l, tail slightly to the left
+#        if is_clip_l:
+#            ax2.annotate('',
+#                         xy=(clipped_l, y),
+#                         xytext=(clipped_l - 0.065, y),
+#                         arrowprops=dict(arrowstyle='<|-', color=color, lw=2, mutation_scale=20))
+#
+#        # Right arrow: tip at clipped_u, tail slightly to the right
+#        if is_clip_r:
+#            ax2.annotate('',
+#                         xy=(clipped_u, y),
+#                         xytext=(clipped_u + 0.065, y),
+#                         arrowprops=dict(arrowstyle='<|-', color=color, lw=2, mutation_scale=20))
+                         
+        arrow_length = 0.03 * (x_max_b - x_min_b)  # 3% of x-axis width
 
-        if not is_clip_r:
-            ax2.plot([clipped_u, clipped_u], [y-0.06, y+0.06], color=color, linewidth=2)
-        else:
-            ax2.annotate('', xy=(x_max_buf_b, y), xytext=(x_max_buf_b-0.015, y),
-                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
+        if is_clip_l:
+            ax2.annotate('',
+                         xy=(clipped_l, y),
+                         xytext=(clipped_l - arrow_length, y),
+                         arrowprops=dict(arrowstyle='<|-', color=color, lw=2, mutation_scale=15))
+
+        if is_clip_r:
+            ax2.annotate('',
+                         xy=(clipped_u, y),
+                         xytext=(clipped_u + arrow_length, y),
+                         arrowprops=dict(arrowstyle='<|-', color=color, lw=2, mutation_scale=15))
+
+        
+
+
 
     ax2.axvline(0, color='gray', linestyle='--')
     ax2.set_yticks(range(len(exposures_b_group)))
     ax2.set_yticklabels([], fontsize=20)
-    ax2.set_xlim(x_min_b, x_max_b)
+    
+    #ax2.set_xlim(x_min_b, x_max_b)
+    x_padding_b = 0.1 * (x_max_b - x_min_b)
+    ax2.set_xlim(x_min_b - x_padding_b, x_max_b + x_padding_b)
+    
     ax2.set_xlabel("Beta (95% CI)", fontsize=20)
-    ax2.set_title("B", loc='left', fontsize=18, weight='bold')
+    ax2.tick_params(axis='x', labelsize=22)
+    #ax2.set_title("B", loc='left', fontsize=18, weight='bold')
     ax2.invert_yaxis()
 
     # Shared legend
-    fig.legend(handles=legend_handles, title="MR Method", fontsize=18,
-               loc='lower center', bbox_to_anchor=(0.5, -0.02),
+    fig.legend(handles=legend_handles, title="MR Method", fontsize=20,
+               title_fontsize=18,
+               loc='lower center', bbox_to_anchor=(0.5, -0.05),
                ncol=3, frameon=False)
 
     plt.tight_layout(rect=[0, 0.04, 1, 1])
