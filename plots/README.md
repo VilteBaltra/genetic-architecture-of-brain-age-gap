@@ -1,30 +1,30 @@
 
-## Contents
+### Contents
 
-### Figures
+#### Figures
 
-- **Figure_1_flowchart_map.jpg** – Flowchart of the study design and
+- Figure_1_flowchart_map.jpg – Flowchart of the study design and
   data processing.
 
-### Python Scripts
+#### Python Scripts
 
-- **PGS_associations_BAG_models_UKBB.py** – Runs associations between
-  PGS and brain age (BAG) phenotypes in UKBB.  
-- **validation_UKBB_GenR_notoverlapping.py** – Validates results between
-  UKBB and GenR datasets.  
-- **MR-combined-33traits-plots-main-manuscript-fig.py** – Generates
-  plots for 33 traits from combined MR analyses.  
-- **MRlap-IVW-df-plotting-forward-and-reverse.py** – Plots forward and
-  reverse MR results using IVW estimates.
+- PGS_associations_BAG_models_UKBB.py – plots associations between
+  PGS and BAG phenotypes in UKBB  
+- validation_UKBB_GenR_notoverlapping.py – plots validation results for
+  UKBB and GenR  
+- MR-combined-33traits-plots-main-manuscript-fig.py – generates
+  forward and resverse MR plots for 33 traits 
+- MRlap-IVW-df-plotting-forward-and-reverse.py – plots forward and
+  reverse MR results using from MRlap
 
-### R Scripts
+#### R Scripts
 
-- **plot-forward-MR-inputGWASs-supp-fig-ivw.R** – Plots forward MR input
-  GWASs for supplementary figure.  
-- **plot-reverse-MR-inputGWASs-supp-fig-ivw.R** – Plots reverse MR input
-  GWASs for supplementary figure.
+- plot-forward-MR-inputGWASs-supp-fig-ivw.R – plots forward MR results for all 6 input
+  GWASs (supplementary figure) 
+- plot-reverse-MR-inputGWASs-supp-fig-ivw.R – plots reverse MR results for all 6 input
+  GWASs (supplementary figure)
 
 ### Jupyter Notebooks
 
-- **plots_rg_MR_PGS_trio.ipynb** – Interactive notebook generating plots
-  for genetic correlations, MR, and PGS-trio analyses.
+- **plots_rg_MR_PGS_trio.ipynb** – interactive notebook generating plots
+  for genetic correlations, MR, and PGS-trio analyses
