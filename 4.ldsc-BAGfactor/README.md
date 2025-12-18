@@ -1,4 +1,4 @@
-### Scripts Overview
+### Scripts overview
 
 1. `1.rg-other-traits.sh`
 - Munges GWAS summary statistics.  
