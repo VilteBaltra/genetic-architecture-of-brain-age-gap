@@ -27,4 +27,4 @@
 #### Jupyter notebook
 
 - plots_rg_MR_PGS_trio.ipynb – interactive notebook generating plots
-  for genetic correlations, MR, and PGS-trio analyses
+  for genetic correlations, MR, and PGS-trio analyses (thanks to Shir Dahan for help in refining these figures)
