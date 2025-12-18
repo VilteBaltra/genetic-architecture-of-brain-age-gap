@@ -6,7 +6,7 @@
 - Figure_1_flowchart_map.jpg – Flowchart of the study design and
   data processing
 
-#### Python Scripts
+#### Python scripts
 
 - PGS_associations_BAG_models_UKBB.py – plots associations between
   PGS and BAG phenotypes in UKBB  
@@ -17,7 +17,7 @@
 - MRlap-IVW-df-plotting-forward-and-reverse.py – plots forward and
   reverse MR results using from MRlap
 
-#### R Scripts
+#### R scripts
 
 - plot-forward-MR-inputGWASs-supp-fig-ivw.R – plots forward MR results for all 6 input
   GWASs (supplementary figure) 
