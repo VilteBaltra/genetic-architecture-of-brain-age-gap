@@ -4,24 +4,14 @@ This folder contains code for **bidirectional Mendelian Randomization (MR)** ana
 
 ---
 
-### Methods included
+### Methods included:
 
-#### Main MR
-- Inverse-Variance Weighted
-
-#### Sensitivity MR
-- Weighted Median  
-- MR-Egger  
-
-#### Sensitivity Tests
+- Main MR: Inverse-Variance Weighted
+- Sensitivity MR: Weighted Median, MR-Egger  
 - Cochran’s Q (heterogeneity)
 - MR-Egger intercept (directional pleiotropy)
 - Leave-one-out analyses
-
-#### Directionality
 - Steiger tests and filtering
-
-#### Sample overlap correction
 - MRlap (accounts for sample overlap, winner’s curse, and weak instruments)
 
 All analyses are run **in both directions**:
