@@ -3,7 +3,7 @@
 
 #### Figure
 
-- Figure_1_flowchart_map.jpg – Flowchart of the study design
+- Figure_1_flowchart_map.jpg – flowchart of the study design
 
 #### Python scripts
 
