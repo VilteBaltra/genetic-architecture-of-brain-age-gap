@@ -1,4 +1,4 @@
-This script runs **genomic structural equation modeling (genomic SEM)** pipeline for a **common factor GWAS of brain age gap** phenotypes derived from multiple large-scale GWASs.
+This script runs **genomic structural equation modeling (genomic SEM)** pipeline for a **common factor GWAS of brain age gap** phenotypes derived from six GWASs.
 
 The workflow includes:
 1. Munging individual GWAS summary statistics  
