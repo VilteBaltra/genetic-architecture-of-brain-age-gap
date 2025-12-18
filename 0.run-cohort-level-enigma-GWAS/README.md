@@ -4,14 +4,14 @@ This folder provides scripts to derive Han et al. (2021; PMID: 32424236) brain a
 
 ---
 
-1. Phenotypic Scripts
+1. Phenotypic scripts
 - Folder: `ENIGMA-brainage-local`  
 - Purpose: Derives Han's brain age gap phenotype.  
 - Instructions: See the `instructions` folder within `ENIGMA-brainage-local`.  
 
 ---
 
-2. Genetic Scripts
+2. Genetic scripts
 - Folder: `ENIGMA-brainage-GWAS-local`  
 - Purpose: Runs the BAGHan ENIGMA GWAS.  
 - Instructions: Follow `0.BrainAgeGWAS_genetic_analysis_instructions_20241216.docx`.  
