@@ -2,7 +2,8 @@
 
 This folder contains scripts for deriving polygenic scores in Generation R and runnning trio genetic analysis.  
 
-UK Biobank–specific code for brain age estimation, GWAS, and PheWAS (including SBayesRC weights) is available at [pjawinski/enigma_brainage](https://github.com/pjawinski/enigma_brainage).
+UK Biobank–specific code for brain age estimation, GWAS, and PheWAS is available at [pjawinski/enigma_brainage](https://github.com/pjawinski/enigma_brainage).
+Code to derive SBayesRC weights is available at [pjawinski/enigma_brainage](https://github.com/pjawinski/enigma_brainage).
 
 #### Scripts
 
