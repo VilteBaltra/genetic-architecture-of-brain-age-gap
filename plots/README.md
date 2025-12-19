@@ -42,8 +42,3 @@ This folder contains scripts used to generate the figures underlying the manuscr
 * **MRlap-IVW-df-plotting-forward-and-reverse-Figure-S9.py**
   Plots forward and reverse MR results using MRlap estimates (Supplementary Figure S9).
 
----
-
-### Notes
-
-* Figure numbers in filenames correspond directly to the manuscript and supplementary materials.
