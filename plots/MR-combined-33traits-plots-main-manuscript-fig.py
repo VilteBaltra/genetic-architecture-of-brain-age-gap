@@ -44,10 +44,8 @@ cap_length = 0.05
 method_offset = {'Inverse variance weighted': -0.25, 'Weighted median': 0, 'MR Egger': 0.25}
 
 # === Load data ===
-# df_a = pd.read_excel("/Users/vb506/Documents/MR-analysis-local/MR-combine-old-with-new-33traits/combined-forward-mr-old-and-new-32traits_grouped.xlsx")
-# df_b = pd.read_excel("/Users/vb506/Documents/MR-analysis-local/MR-combine-old-with-new-33traits/combined-reverse-mr-old-and-new-32traits_grouped.xlsx")
-df_a = pd.read_excel("/Users/vb506/Documents/MR-analysis-local/main-MR/forward-and-reverse-MR-33traits-results.xlsx", sheet_name=0) # first sheet
-df_b = pd.read_excel("/Users/vb506/Documents/MR-analysis-local/main-MR/forward-and-reverse-MR-33traits-results.xlsx", sheet_name=1) # second sheet
+df_a = pd.read_excel("main-MR/forward-and-reverse-MR-33traits-results.xlsx", sheet_name=0) # first sheet
+df_b = pd.read_excel("main-MR/forward-and-reverse-MR-33traits-results.xlsx", sheet_name=1) # second sheet
 # df_a = df_a[df_a['outcome'] == "BAG Han"]
 # df_b = df_b[df_b['exposure'] == "BAG Han"]
 # df_a = df_a[df_a['outcome'] == "BAG Jawinski"]
@@ -85,16 +83,6 @@ print("Unmatched traits:", df_b[df_b["group"].isna()]["outcome"].unique())
 trait_groups = sorted(set(df_a['group'].dropna().unique()).union(
                  set(df_b['group'].dropna().unique())))
 
-
-# convert columns to numeric, 
-# [compute CIs, and clean strings]
-# for df, exposure_col, outcome_col in [(df_a, 'exposure', 'outcome'), (df_b, 'outcome', 'exposure')]:
-#     for col in ['b', 'se', 'pval']:
-#         df[col] = df[col].astype(str).str.replace(',', '.', regex=False).astype(float)
-    #df['ci_lower'] = df['b'] - 1.96 * df['se']
-    #df['ci_upper'] = df['b'] + 1.96 * df['se']
-    #df[exposure_col] = df[exposure_col].str.capitalize()
-    #df['method'] = df['method'].str.strip()
 
 # === Loop per trait group ===
 
@@ -167,8 +155,6 @@ for group_name in trait_groups:
         is_clip_l = ci_l < x_min_buf_a
         is_clip_r = ci_u > x_max_buf_a
 
-        #ci_start = clipped_l + (arrow_gap_a if is_clip_l else 0)
-        #ci_end   = clipped_u - (arrow_gap_a if is_clip_r else 0)
         ci_start = clipped_l
         ci_end = clipped_u
 
@@ -176,27 +162,6 @@ for group_name in trait_groups:
         ax1.plot(row['b'], y, 'o', color=color,
                  markersize=12, markeredgewidth=2, markeredgecolor='white')
         ax1.plot([ci_start, ci_end], [y, y], color=color, linewidth=3)
-
-#        # caps
-#        if not is_clip_l:
-#            ax1.plot([clipped_l, clipped_l], [y-0.06, y+0.06], color=color, linewidth=2)
-#        else:
-#            ax1.annotate('', xy=(x_min_buf_a, y), xytext=(x_min_buf_a+0.015, y),
-#                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
-#
-#        if not is_clip_r:
-#            ax1.plot([clipped_u, clipped_u], [y-0.06, y+0.06], color=color, linewidth=2)
-#        else:
-#            ax1.annotate('', xy=(x_max_buf_a, y), xytext=(x_max_buf_a-0.015, y),
-#                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
-#                         
-#        if is_clip_l:
-#            ax1.annotate('', xy=(clipped_l, y), xytext=(clipped_l + 0.02*(x_max_a - x_min_a), y),
-#                 arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
-#        
-#        if is_clip_r:
-#            ax1.annotate('', xy=(clipped_u, y), xytext=(clipped_u - 0.02*(x_max_a - x_min_a), y),
-#                 arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
 
 
         arrow_length = 0.03 * (x_max_a - x_min_a)  # 3% of x-axis width
@@ -262,45 +227,6 @@ for group_name in trait_groups:
         ax2.plot(row['b'], y, 'o', color=color,
                  markersize=12, markeredgewidth=2, markeredgecolor='white')
         ax2.plot([ci_start, ci_end], [y, y], color=color, linewidth=3)
-
-#        if not is_clip_l:
-#            ax2.plot([clipped_l, clipped_l], [y-0.06, y+0.06], color=color, linewidth=2)
-#        else:
-#            ax2.annotate('', xy=(x_min_buf_b, y), xytext=(x_min_buf_b+0.015, y),
-#                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
-#
-#        if not is_clip_r:
-#            ax2.plot([clipped_u, clipped_u], [y-0.06, y+0.06], color=color, linewidth=2)
-#        else:
-#            ax2.annotate('', xy=(x_max_buf_b, y), xytext=(x_max_buf_b-0.015, y),
-#                         arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
-                         
-#        if is_clip_l:
-#            ax2.annotate('', xy=(clipped_l, y), xytext=(clipped_l + 0.02*(x_max_b - x_min_b), y), arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
-#
-#        if is_clip_r:
-#            ax2.annotate('', xy=(clipped_u, y), xytext=(clipped_u - 0.02*(x_max_b - x_min_b), y), arrowprops=dict(arrowstyle='-|>', color=color, lw=2))
-            
-#        if is_clip_l:
-#            ax2.annotate('', xy=(clipped_l-0.05, y), xytext=(clipped_l + 0.05*(x_max_b - x_min_b), y), arrowprops=dict(arrowstyle='-|>', color=color, lw=2, mutation_scale=20))
-#
-#        if is_clip_r:
-#            ax2.annotate('', xy=(clipped_u+0.05, y), xytext=(clipped_l - 0.05*(x_max_b - x_min_b), y), arrowprops=dict(arrowstyle='-|>', color=color, lw=2, mutation_scale=20))
-#            
-            
-#        # Left arrow: tip at clipped_l, tail slightly to the left
-#        if is_clip_l:
-#            ax2.annotate('',
-#                         xy=(clipped_l, y),
-#                         xytext=(clipped_l - 0.065, y),
-#                         arrowprops=dict(arrowstyle='<|-', color=color, lw=2, mutation_scale=20))
-#
-#        # Right arrow: tip at clipped_u, tail slightly to the right
-#        if is_clip_r:
-#            ax2.annotate('',
-#                         xy=(clipped_u, y),
-#                         xytext=(clipped_u + 0.065, y),
-#                         arrowprops=dict(arrowstyle='<|-', color=color, lw=2, mutation_scale=20))
                          
         arrow_length = 0.03 * (x_max_b - x_min_b)  # 3% of x-axis width
 
