@@ -1,6 +1,6 @@
 ## Plotting scripts
 
-This folder contains scripts used to generate the figures underlying the manuscript. Scripts are written in **R**, **Python**, and **shell**, and generally assume that all upstream analyses (GWAS, MR, PGS, genetic correlations, etc.) have already been run and that cleaned result tables are available.
+This folder contains scripts used to generate key figures for the manuscript. Scripts are written in **R**, **Python**, and **shell**, and generally assume that all upstream analyses (GWAS, MR, PGS, genetic correlations, etc.) have already been run and that cleaned result tables are available.
 
 ---
 
@@ -8,7 +8,7 @@ This folder contains scripts used to generate the figures underlying the manuscr
 
 #### Main manuscript figures
 
-* **rg_among_six_BAGs_Figure-2A.py**
+* *rg_among_six_BAGs_Figure-2A.py*
   Plots genetic correlations among the six brain age gap (BAG) phenotypes (Figure 2A)
 
 * **manhattan-plot-Figure-2C.R**
