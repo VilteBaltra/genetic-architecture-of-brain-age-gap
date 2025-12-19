@@ -17,5 +17,3 @@
 
 **Notes**
 - Ensure the `functions` folder is available before running scripts  
-- Scripts should be executed in the order listed  
-- R environment and required packages must be installed
