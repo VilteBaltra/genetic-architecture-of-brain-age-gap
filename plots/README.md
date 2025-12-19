@@ -8,10 +8,9 @@ This folder contains scripts used to generate key figures for the manuscript. Sc
 
 #### Main manuscript figures
 
-* **rg_among_six_BAGs_Figure-2A.py**: Plots genetic correlations among the six brain age gap (BAG) phenotypes (Figure 2A)
+* *rg_among_six_BAGs_Figure-2A.py*: Plots genetic correlations among the six brain age gap (BAG) phenotypes (Figure 2A)
 
-* **manhattan-plot-Figure-2C.R**
-  Generates the Manhattan plot for the brain age GWAS used in the main manuscript (Figure 2C)
+* *manhattan-plot-Figure-2C.R*: Generates the Manhattan plot for the brain age GWAS used in the main manuscript (Figure 2C)
 
 * **rg_BAGfactor_with_33traits_Figure-2D.py**
   Plots genetic correlations between the BAG factor and 33 external traits (Figure 2D)
