@@ -14,9 +14,9 @@ This folder contains scripts used to generate key figures for the manuscript. Sc
 
 * *rg_BAGfactor_with_33traits_Figure-2D.py*: Plots genetic correlations between the BAG factor and 33 external traits (Figure 2D)
 
-* *MR-combined-33traits-plots-main-manuscript-Figure-3.py*: Generates the combined forward and reverse MR plots across 33 traits for the main manuscript (Figure 3)
+* *MR-combined-33traits-plots-main-manuscript-Figure-3.py*: Generates separate panels for the forward and reverse MR plots across 33 traits (Figure 3)
 
-* *PGS-and-trio-plots-Figure-4AtoC_Figure-5.py*: Generates polygenic score (PGS) and trio-based plots for Figures 4A–4C and Figure 5
+* *PGS-and-trio-plots-Figure-4AtoC_Figure-5.py*: Generates PGS and trio-based plots for Figures 4A–4C and Figure 5
 
 * *PGS_associations_BAG_models_UKBB_Figure-4E.py*: Plots associations between PGSs and BAG phenotypes in UK Biobank (Figure 4E).
 
