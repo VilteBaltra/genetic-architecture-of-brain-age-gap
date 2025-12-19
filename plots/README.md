@@ -16,7 +16,9 @@ This folder contains scripts used to generate key figures for the manuscript. Sc
 
 * *MR-combined-33traits-plots-main-manuscript-Figure-3.py*: Generates separate panels for the forward and reverse MR plots across 33 traits (Figure 3)
 
-* *PGS-and-trio-plots-Figure-4AtoC_Figure-5.py*: Generates PGS and trio-based plots for Figures 4A–4C and Figure 5
+* *PGS-and-trio-plots-Figure-4AtoC_Figure-5.py*: Generates PGS and trio-based plots (Figures 4A–4C and Figure 5)
+
+* *pheWAS-plot-Figure-4D.R*: Plots an overview of PheWAS results for the BAG factor (Figure 4D)
 
 * *PGS_associations_BAG_models_UKBB_Figure-4E.py*: Plots associations between PGSs and BAG phenotypes in UK Biobank (Figure 4E).
 
