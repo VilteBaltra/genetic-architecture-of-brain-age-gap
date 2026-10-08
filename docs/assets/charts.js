@@ -287,11 +287,207 @@
     }, helpers);
   }
 
+  /* ---------- shared hover helper for point/bar charts ---------- */
+  function attachTip(el, svg, find, helpers) {
+    const tip = document.createElement("div");
+    tip.className = "fp-tip"; tip.hidden = true;
+    el.appendChild(tip);
+    const pt = svg.createSVGPoint();
+    const locate = (e) => { pt.x = e.clientX; pt.y = e.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); };
+    let hl = null;
+    const clear = () => { tip.hidden = true; if (hl) hl.remove(); hl = null; svg.style.cursor = ""; };
+    svg.addEventListener("mousemove", (e) => {
+      const p = locate(e);
+      const hit = find(p.x, p.y);
+      if (!hit) { clear(); return; }
+      tip.innerHTML = hit.tip; tip.hidden = false;
+      svg.style.cursor = "pointer";
+      if (hl) hl.remove();
+      if (hit.ring) { svg.insertAdjacentHTML("beforeend", hit.ring); hl = svg.lastElementChild; }
+      const r = el.getBoundingClientRect();
+      let left = e.clientX - r.left + 14, top = e.clientY - r.top + 12;
+      if (left + tip.offsetWidth > r.width - 8) left = e.clientX - r.left - tip.offsetWidth - 14;
+      tip.style.left = left + "px"; tip.style.top = top + "px";
+    });
+    svg.addEventListener("mouseleave", clear);
+    svg.addEventListener("click", (e) => { const p = locate(e); const hit = find(p.x, p.y); if (hit && hit.row) helpers.openDrawer(hit.row); });
+  }
+  const colG = (t, group, name) => t.columns.findIndex((c) => (c.group || "").toLowerCase().includes(group.toLowerCase()) && c.name.toLowerCase() === name.toLowerCase());
+  const pct = (v) => (v * 100).toFixed(v * 100 < 0.1 ? 3 : 2) + "%";
+
+  /* ---------- PGS prediction by ancestry (S29) ---------- */
+  function pgs(el, t, rows, st, helpers) {
+    last = [el, t, rows, st, helpers, pgs];
+    el.innerHTML = "";
+    const cT = col(t, "target sample"), cB = col(t, "base gwas");
+    const targets = [...new Set(t.columns.filter((c) => c.group).map((c) => c.group))];
+    st.chartOpts = st.chartOpts || {};
+    const opt = st.chartOpts;
+    if (!targets.includes(opt.target)) opt.target = targets[0];
+    el.insertAdjacentHTML("beforeend", `<div class="fp-head"><div class="fp-controls">
+      <label for="fp-target">Brain age gap measured with <select id="fp-target">${targets.map((g) => `<option ${g === opt.target ? "selected" : ""}>${esc(g.replace(/^Brain age gap \((.*)\)$/, "$1"))}</option>`).join("")}</select></label>
+      </div></div>`);
+    el.querySelector("#fp-target").addEventListener("change", (e) => { opt.target = targets[e.target.selectedIndex]; pgs(el, t, rows, st, helpers); });
+    const cR2 = colG(t, opt.target, "r2"), cRho = colG(t, opt.target, "rho"), cN = colG(t, opt.target, "n"), cP = colG(t, opt.target, "p");
+
+    const anc = [];
+    for (const r of rows) {
+      const a = String(r[cT]); let g = anc.find((x) => x.name === a);
+      if (!g) anc.push(g = { name: a, bars: [] });
+      const r2 = num(r[cR2]); if (r2 === null) continue;
+      g.bars.push({ base: String(r[cB]), r2, p: num(r[cP]), n: num(r[cN]), rho: num(r[cRho]), row: r });
+    }
+    const panels = anc.filter((a) => a.bars.length);
+    if (!panels.length) { el.insertAdjacentHTML("beforeend", `<div class="fp-empty">No rows to chart. Clear the search or filters.</div>`); return; }
+    const bases = []; for (const a of panels) for (const b of a.bars) if (!bases.includes(b.base)) bases.push(b.base);
+    const isFactor = (b) => /factor/i.test(b);
+
+    const width = Math.max(320, el.clientWidth - 32);
+    const labelW = 112, gap = 18;
+    const perRow = width > 980 ? panels.length : width > 600 ? 2 : 1;
+    const panelW = Math.floor((width - labelW - gap * (perRow - 1)) / perRow);
+    const barH = 14, rowH = 22, headH = 34, axisH = 26;
+    const panelH = headH + bases.length * rowH + axisH;
+    const nRows = Math.ceil(panels.length / perRow);
+    const H = nRows * (panelH + 14);
+    let xmax = 0; for (const a of panels) for (const b of a.bars) xmax = Math.max(xmax, b.r2);
+    const ticks = niceTicks(0, xmax * 1.08, Math.max(2, Math.round(panelW / 80)));
+    xmax = ticks[ticks.length - 1];
+    const hits = [];
+    let svg = `<svg class="fp-svg" viewBox="0 0 ${width} ${H}" width="${width}" height="${H}" role="img" aria-label="Polygenic score prediction of brain age gap by ancestry">`;
+    panels.forEach((a, i) => {
+      const row = Math.floor(i / perRow), c = i % perRow;
+      const x0 = labelW + c * (panelW + gap), y0 = row * (panelH + 14);
+      const X = (v) => x0 + (v / xmax) * (panelW - 8);
+      const n = a.bars.find((b) => b.n !== null);
+      svg += `<text class="lab" x="${x0}" y="${y0 + 14}" style="font-weight:600">${esc(a.name.replace(/ ancestry/i, ""))}</text>`;
+      if (n) svg += `<text class="tick" x="${x0}" y="${y0 + 28}">n = ${n.n.toLocaleString()}</text>`;
+      for (const tv of ticks) {
+        svg += `<line class="grid" x1="${X(tv)}" x2="${X(tv)}" y1="${y0 + headH - 4}" y2="${y0 + headH + bases.length * rowH}"/>`;
+        svg += `<text class="tick" x="${X(tv)}" y="${y0 + headH + bases.length * rowH + 16}" text-anchor="middle">${(tv * 100).toFixed(tv * 100 < 1 && tv > 0 ? 1 : 0)}%</text>`;
+      }
+      bases.forEach((base, j) => {
+        const cy = y0 + headH + j * rowH + rowH / 2;
+        if (c === 0) svg += `<text class="lab" x="${labelW - 10}" y="${cy}" text-anchor="end" dominant-baseline="middle" style="${isFactor(base) ? "font-weight:600" : ""}">${esc(base)}</text>`;
+        const b = a.bars.find((x) => x.base === base); if (!b) return;
+        const s = isFactor(base) ? 2 : 1, sig = b.p !== null && b.p < 0.05;
+        const w = Math.max(1.5, X(b.r2) - x0);
+        svg += `<rect class="mk s${s} ${sig ? "f" + s : "hollow"}" x="${x0}" y="${cy - barH / 2}" width="${w}" height="${barH}" rx="3"/>`;
+        if (isFactor(base)) svg += `<text class="tick" x="${x0 + w + 6}" y="${cy}" dominant-baseline="middle">${pct(b.r2)}</text>`;
+        hits.push({ x1: x0, x2: x0 + Math.max(w, 40), y1: cy - rowH / 2, y2: cy + rowH / 2, row: b.row,
+          ring: `<rect x="${x0 - 2}" y="${cy - barH / 2 - 2}" width="${w + 4}" height="${barH + 4}" rx="4" fill="none" style="stroke:var(--ink);stroke-width:1.5"/>`,
+          tip: `<b>${esc(base)}</b> → ${esc(a.name)}<br>R² ${pct(b.r2)} · rho ${fmt(b.rho)}<br>p ${fmt(b.p)} · n ${b.n === null ? "–" : b.n.toLocaleString()}` });
+      });
+    });
+    svg += `</svg>`;
+    el.insertAdjacentHTML("beforeend", `<div class="fp-legend">
+      <span>${legendMark("square", 2, false)}BAG factor</span><span>${legendMark("square", 1, false)}Single-model BAG GWAS</span>
+      <span>${legendMark("square", 1, false)} filled: p &lt; 0.05</span><span>${legendMark("square", 1, true)} hollow: not significant</span></div>
+      <div class="fp-plot">${svg}</div>
+      <p class="fp-caption">Variance in brain age gap explained (partial R²) by each polygenic score, per ancestry group of the UK Biobank hold-out sample. All panels share one x-axis. Hover a bar for values; click it to see the full row.</p>`);
+    const sv = el.querySelector(".fp-plot svg");
+    attachTip(el, sv, (x, y) => hits.find((h) => x >= h.x1 && x <= h.x2 && y >= h.y1 && y <= h.y2), helpers);
+  }
+
+  /* ---------- PheWAS (S32) ---------- */
+  function phewas(el, t, rows, st, helpers) {
+    last = [el, t, rows, st, helpers, phewas];
+    el.innerHTML = "";
+    const models = [...new Set(t.columns.filter((c) => c.group).map((c) => c.group))];
+    st.chartOpts = st.chartOpts || {};
+    const opt = st.chartOpts;
+    if (!models.includes(opt.model)) opt.model = models.find((m) => /factor/i.test(m)) || models[0];
+    if (!opt.cap) opt.cap = 30;
+    el.insertAdjacentHTML("beforeend", `<div class="fp-head"><div class="fp-controls">
+      <label for="fp-model">Polygenic score <select id="fp-model">${models.map((m) => `<option ${m === opt.model ? "selected" : ""}>${esc(m)}</option>`).join("")}</select></label>
+      <label for="fp-cap">Y axis up to <select id="fp-cap">${[10, 30, 60, 0].map((c) => `<option value="${c}" ${c === opt.cap ? "selected" : ""}>${c ? "−log10 p = " + c : "show all"}</option>`).join("")}</select></label>
+      </div></div>`);
+    el.querySelector("#fp-model").addEventListener("change", (e) => { opt.model = e.target.value; phewas(el, t, rows, st, helpers); });
+    el.querySelector("#fp-cap").addEventListener("change", (e) => { opt.cap = +e.target.value; phewas(el, t, rows, st, helpers); });
+
+    const cID = col(t, "phenotype id"), cD = col(t, "phenotype description"), cC = col(t, "category");
+    const cP = colG(t, opt.model, "p"), cF = colG(t, opt.model, "fdr"), cRho = colG(t, opt.model, "rho");
+    const pts = [];
+    for (const r of rows) {
+      const p = num(r[cP]); if (p === null || p <= 0) continue;
+      pts.push({ r, p, lp: -Math.log10(p), fdr: num(r[cF]), rho: num(r[cRho]), cat: String(r[cC] || "Other"), id: String(r[cID]) });
+    }
+    if (!pts.length) { el.insertAdjacentHTML("beforeend", `<div class="fp-empty">No rows to chart. Clear the search or filters.</div>`); return; }
+    const cats = [...new Set(pts.map((p) => p.cat))].sort((a, b) => a.localeCompare(b));
+    pts.sort((a, b) => cats.indexOf(a.cat) - cats.indexOf(b.cat) || a.id.localeCompare(b.id, undefined, { numeric: true }));
+
+    const width = Math.max(320, el.clientWidth - 32);
+    const left = 100, right = 12, top = 12, plotH = 360, bottom = 150;
+    const H = top + plotH + bottom;
+    const maxLp = Math.max(...pts.map((p) => p.lp));
+    const yTop = opt.cap ? Math.min(opt.cap, Math.max(maxLp, 2)) : maxLp;
+    const yt = niceTicks(0, yTop, 6); const yMax = Math.max(yTop, yt[yt.length - 1]);
+    // Each category gets half its share by count and half an equal share, so small categories stay readable.
+    const plotW = width - left - right;
+    const counts = cats.map((c) => pts.filter((p) => p.cat === c).length);
+    const bandW = counts.map((n) => plotW * (0.5 * n / pts.length + 0.5 / cats.length));
+    const bandX = []; bandW.reduce((acc, w, k) => (bandX[k] = acc, acc + w), left);
+    const posInCat = new Map(); { const seen = {}; pts.forEach((p) => { const k = cats.indexOf(p.cat); seen[k] = (seen[k] || 0) + 1; posInCat.set(p, seen[k] - 1); }); }
+    const X = (p) => { const k = cats.indexOf(p.cat); return bandX[k] + ((posInCat.get(p) + 0.5) / counts[k]) * bandW[k]; };
+    const Y = (v) => top + plotH - (Math.min(v, yMax) / yMax) * plotH;
+    const nSig = pts.filter((p) => p.fdr !== null && p.fdr < 0.05).length;
+    const bonf = -Math.log10(0.05 / pts.length);
+
+    let svg = `<svg class="fp-svg" viewBox="0 0 ${width} ${H}" width="${width}" height="${H}" role="img" aria-label="PheWAS of ${esc(opt.model)} polygenic score">`;
+    // category bands
+    cats.forEach((c, ci) => {
+      const xa = bandX[ci], xb = bandX[ci] + bandW[ci];
+      if (ci % 2 === 0) svg += `<rect class="band" x="${xa}" y="${top}" width="${xb - xa}" height="${plotH}"/>`;
+      svg += `<text class="tick" transform="translate(${(xa + xb) / 2},${top + plotH + 10}) rotate(-40)" text-anchor="end" style="font-family:var(--font-body)">${esc(c)}</text>`;
+    });
+    for (const v of yt) {
+      if (v > yMax) continue;
+      svg += `<line class="grid" x1="${left}" x2="${width - right}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tick" x="${left - 6}" y="${Y(v)}" text-anchor="end" dominant-baseline="middle">${v}</text>`;
+    }
+    svg += `<text class="axt" transform="translate(${left - 40},${top + plotH / 2}) rotate(-90)" text-anchor="middle">−log10(p)</text>`;
+    if (bonf < yMax) svg += `<line class="zero" x1="${left}" x2="${width - right}" y1="${Y(bonf)}" y2="${Y(bonf)}"/><text class="tick" x="${width - right - 4}" y="${Y(bonf) - 5}" text-anchor="end">Bonferroni</text>`;
+    // non-significant first (muted), then significant on top
+    const ns = [], sg = [];
+    pts.forEach((p) => { p.x = X(p); p.y = Y(p.lp); p.capped = p.lp > yMax; (p.fdr !== null && p.fdr < 0.05 ? sg : ns).push(p); });
+    let dots = "";
+    for (const p of ns) dots += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.2" style="fill:var(--muted);opacity:${cats.indexOf(p.cat) % 2 ? 0.55 : 0.32}"/>`;
+    for (const p of sg) {
+      const up = (p.rho || 0) >= 0, s = up ? 1 : 2, r = 5;
+      const d = up ? `M${p.x},${p.y - r}L${p.x + r},${p.y + r * 0.8}L${p.x - r},${p.y + r * 0.8}Z` : `M${p.x},${p.y + r}L${p.x + r},${p.y - r * 0.8}L${p.x - r},${p.y - r * 0.8}Z`;
+      dots += `<path class="mk f${s}" d="${d}" style="stroke:var(--surface);stroke-width:1"/>`;
+      if (p.capped) dots += `<text class="tick" x="${p.x}" y="${p.y - 8}" text-anchor="middle" style="font-size:9px">↑</text>`;
+    }
+    svg += dots + `</svg>`;
+
+    el.insertAdjacentHTML("beforeend", `<div class="fp-legend">
+      <span>${legendTri(true)} FDR &lt; 0.05, positive association</span><span>${legendTri(false)} FDR &lt; 0.05, negative association</span>
+      <span><svg width="10" height="10" aria-hidden="true"><circle cx="5" cy="5" r="2.5" style="fill:var(--muted);opacity:.5"/></svg> not FDR-significant</span>
+      <span>${pts.length.toLocaleString()} phenotypes · ${nSig.toLocaleString()} FDR-significant</span></div>
+      <div class="fp-plot">${svg}</div>
+      <p class="fp-caption">Each point is one UK Biobank phenotype, grouped by category. Direction follows the sign of rho. ${opt.cap ? `Points above −log10 p = ${yMax} are drawn at the top edge with an arrow; choose “show all” to see them to scale.` : ""} Hover for the phenotype and statistics; click to see the full row. Use the table search (for example “blood pressure”) to chart a subset.</p>`);
+
+    const sv = el.querySelector(".fp-plot svg");
+    const all = sg.concat(ns);
+    attachTip(el, sv, (x, y) => {
+      let best = null, bd = 64;
+      for (const p of all) { const d = (p.x - x) ** 2 + (p.y - y) ** 2; if (d < bd) { bd = d; best = p; } }
+      if (!best) return null;
+      return { row: best.r, ring: `<circle cx="${best.x}" cy="${best.y}" r="7" fill="none" style="stroke:var(--ink);stroke-width:1.5"/>`,
+        tip: `<b>${esc(best.r[cD])}</b><br>${esc(best.cat)}<br>rho ${fmt(best.rho)} · p ${fmt(best.p)}${best.capped ? " (above axis)" : ""}<br>FDR ${fmt(best.fdr)}` };
+    }, helpers);
+  }
+  function legendTri(up) {
+    const d = up ? "M7,2L12,11L2,11Z" : "M7,12L12,3L2,3Z";
+    return `<svg class="fp-svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" style="width:14px;display:inline"><path class="f${up ? 1 : 2}" d="${d}"/></svg>`;
+  }
+
   window.SuppCharts = {
     S13: { render: ldsc },
     S20: { render: ldsc },
     S22: { render: mr },
     S23: { render: mr },
     S24: { render: mr },
+    S29: { render: pgs },
+    S32: { render: phewas },
   };
 })();
