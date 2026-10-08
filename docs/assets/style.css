@@ -208,3 +208,7 @@ table.data { border-collapse: separate; border-spacing: 0; font-size: var(--fs-s
   .scroller { max-height: 70vh; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+
+.sigctl { display: inline-flex; align-items: center; gap: .4rem; }
+.sigcol { display: inline-flex; align-items: center; gap: .35rem; font-size: var(--fs-sm); color: var(--muted); }
+.sigcol select { width: auto; max-width: 14rem; padding: .4rem .5rem; }

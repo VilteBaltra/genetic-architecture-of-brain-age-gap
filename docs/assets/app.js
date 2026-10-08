@@ -109,6 +109,10 @@
     const t = await getJSON(`data/${id}.json`);
     t.rows.forEach((r, i) => { r._i = i; r._text = r.map((v) => (v === null ? "" : String(v))).join("\u0001").toLowerCase(); });
     t.pCols = t.columns.map((c, i) => (c.kind === "p" ? i : -1)).filter((i) => i >= 0);
+    // Main p-value column: the plain "pval"/"p"/"P.uncorrected"-style one, else the first p column.
+    const MAIN_P = ["pval", "p", "p-value", "pvalue", "p.uncorrected", "top p"];
+    t.mainP = t.pCols.find((i) => MAIN_P.includes(t.columns[i].name.toLowerCase()));
+    if (t.mainP === undefined) t.mainP = t.pCols.length ? t.pCols[0] : -1;
     t.stickyCol = t.columns.findIndex((c) => c.kind !== "section");
     if (t.heatmap) {
       let lo = Infinity, hi = -Infinity;
@@ -122,7 +126,7 @@
   }
 
   function getState(id) {
-    if (!state.has(id)) state.set(id, { q: "", filters: {}, sort: null, page: 0, hidden: new Set(), sigOnly: false });
+    if (!state.has(id)) state.set(id, { q: "", filters: {}, sort: null, page: 0, hidden: new Set(), sigOnly: false, sigCol: undefined });
     return state.get(id);
   }
 
@@ -186,6 +190,8 @@
   function renderShell(t, st) {
     const main = $("#main");
     const hasP = t.pCols.length > 0;
+    if (st.sigCol === undefined) st.sigCol = t.mainP;
+    const pLabel = (i) => (t.columns[i].group ? `${t.columns[i].group} · ` : "") + t.columns[i].name;
     const wide = t.columns.length > 10;
     main.innerHTML = `
       <div class="t-head">
@@ -196,7 +202,12 @@
       <div class="toolbar">
         <input id="tq" class="grow" type="search" placeholder="Search this table" value="${esc(st.q)}" autocomplete="off" spellcheck="false" aria-label="Search this table">
         <button id="filt" class="btn ${st.showFilters ? "on" : ""}" type="button" aria-pressed="${!!st.showFilters}">Filter columns</button>
-        ${hasP ? `<button id="sig" class="btn ${st.sigOnly ? "on" : ""}" type="button" aria-pressed="${st.sigOnly}" title="Keep rows where any p-value column is below ${CONFIG.sigThreshold}">p &lt; ${CONFIG.sigThreshold}</button>` : ""}
+        ${hasP ? `<span class="sigctl">
+          <button id="sig" class="btn ${st.sigOnly ? "on" : ""}" type="button" aria-pressed="${st.sigOnly}" title="Keep rows where the selected p-value column is below ${CONFIG.sigThreshold}">p &lt; ${CONFIG.sigThreshold}</button>
+          ${t.pCols.length > 1
+            ? `<label class="sigcol"><span>in</span><select id="sigcol" aria-label="p-value column used for the p &lt; ${CONFIG.sigThreshold} filter">${t.pCols.map((i) => `<option value="${i}" ${i === st.sigCol ? "selected" : ""}>${esc(pLabel(i))}</option>`).join("")}</select></label>`
+            : `<span class="sigcol"><span>in ${esc(pLabel(st.sigCol))}</span></span>`}
+        </span>` : ""}
         ${wide ? `<div class="colpicker"><button id="colbtn" class="btn" type="button" aria-expanded="false">Columns</button><div id="colmenu" class="colmenu" hidden></div></div>` : ""}
         <span class="quiet">
           <button id="reset" class="btn ghost" type="button" hidden>Clear all</button>
@@ -219,6 +230,11 @@
       renderBody(t, st);
       if (st.showFilters) { const f = $("#grid [data-filter]"); if (f) f.focus(); }
     });
+    if (hasP && $("#sigcol") && $("#sigcol").tagName === "SELECT") $("#sigcol").addEventListener("change", (e) => {
+      st.sigCol = +e.target.value; st.page = 0;
+      const lg = $("#sig-legend"); if (lg) lg.textContent = `${pLabel(st.sigCol)} below ${CONFIG.sigThreshold}`;
+      renderBody(t, st);
+    });
     if (hasP) $("#sig").addEventListener("click", (e) => {
       st.sigOnly = !st.sigOnly; st.page = 0;
       e.currentTarget.classList.toggle("on", st.sigOnly); e.currentTarget.setAttribute("aria-pressed", st.sigOnly);
@@ -231,7 +247,7 @@
 
     // Legend and notes
     const leg = [];
-    if (hasP) leg.push(`<span><span class="sig">●</span> p-value below ${CONFIG.sigThreshold}</span>`);
+    if (hasP) leg.push(`<span><span class="sig">●</span> <span id="sig-legend">${esc(pLabel(st.sigCol))} below ${CONFIG.sigThreshold}</span></span>`);
     if (t.heatmap) leg.push(`<span><span class="sw" style="background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--heat) 60%, transparent))"></span>${fmtNum(t.heatRange[0], {})} → ${fmtNum(t.heatRange[1], {})}</span>`);
     $("#legend").innerHTML = leg.join("");
     let notes = t.notes.map((n) => `<p>${cellHTML(n, {})}</p>`).join("");
@@ -267,7 +283,7 @@
     let rows = t.rows.filter((r) => {
       if (q && !r._text.includes(q)) return false;
       for (const [i, f] of fs) if (!f(r[i])) return false;
-      if (st.sigOnly && !t.pCols.some((i) => typeof r[i] === "number" && r[i] < CONFIG.sigThreshold)) return false;
+      if (st.sigOnly && !(typeof r[st.sigCol] === "number" && r[st.sigCol] < CONFIG.sigThreshold)) return false;
       return true;
     });
     if (st.sort) {
@@ -288,13 +304,13 @@
     return rows;
   }
 
-  function cellClass(v, col, t, i) {
+  function cellClass(v, col, t, i, st) {
     const cls = [];
     if (col.kind === "section") cls.push("section");
     else if (col.type === "num") cls.push("num");
     else if (["snp", "ensg", "id"].includes(col.kind)) cls.push("mono");
     else if (typeof v === "string" && v.length > 40) cls.push("trunc");
-    if (col.kind === "p" && typeof v === "number" && v < CONFIG.sigThreshold) cls.push("p-sig");
+    if (i === st.sigCol && typeof v === "number" && v < CONFIG.sigThreshold) cls.push("p-sig");
     if (i === t.stickyCol) cls.push("sticky");
     return cls.join(" ");
   }
@@ -357,7 +373,7 @@
         const inner = cellHTML(v, c);
         const title = typeof v === "number" && !Number.isInteger(v) ? ` title="${v}"`
           : typeof v === "string" && v.length > 40 ? ` title="${esc(v)}"` : "";
-        return `<td class="${cellClass(v, c, t, i)}"${heatStyle(t, i, v)}${title}>${inner}</td>`;
+        return `<td class="${cellClass(v, c, t, i, st)}"${heatStyle(t, i, v)}${title}>${inner}</td>`;
       }).join("") + `</tr>`;
     }
     if (!slice.length) body = `<tr><td colspan="${cols.length}" class="empty">No rows match. Clear the search or filters to see all ${t.rows.length.toLocaleString()} rows.</td></tr>`;

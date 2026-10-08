@@ -1,9 +1,14 @@
 
 # Genetic architecture of brain age gap
 
-[![Interactive supplementary tables](https://img.shields.io/badge/Supplementary_tables-browse_interactively-1d5c88?style=for-the-badge)](https://viltebaltra.github.io/genetic-architecture-of-brain-age-gap/)
+<p align="center">
+  <a href="https://viltebaltra.github.io/genetic-architecture-of-brain-age-gap/"><img src="docs/assets/readme-preview.png" width="90%" alt="Screenshot of the interactive supplementary tables website"></a>
+  <br>
+  <b><a href="https://viltebaltra.github.io/genetic-architecture-of-brain-age-gap/">Browse the interactive supplementary tables →</a></b>
+  <br>
+  <sub>Search, filter and download every supplementary table from the paper</sub>
+</p>
 
-All 33 supplementary tables from the paper can be searched, filtered and downloaded at **[viltebaltra.github.io/genetic-architecture-of-brain-age-gap](https://viltebaltra.github.io/genetic-architecture-of-brain-age-gap/)**.
 
 This repository contains scripts and workflows for estimating **brain age gaps (BAG)**, performing **GWAS** in individual cohorts, **meta-analysing GWAS summary statistics**, running **genetic correlations**, **Mendelian randomisation**, and **polygenic score analyses**.  
 
