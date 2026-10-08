@@ -67,8 +67,10 @@
     if (typeof v === "number") return fmtNum(v, col);
     let s = esc(v);
     // Link "PMID: 12345" and bare URLs inside free text.
-    s = s.replace(/PMID:?\s*(\d{6,9})/g, (m, id) => `<a href="https://pubmed.ncbi.nlm.nih.gov/${id}/" target="_blank" rel="noopener" data-stop>${m}</a>`);
-    s = s.replace(/(https?:\/\/[^\s<]+[^\s<.,;)])/g, (m) => `<a href="${m}" target="_blank" rel="noopener" data-stop>${m}</a>`);
+    // One pass, so a link made for a PMID is never re-linked as a URL.
+    s = s.replace(/(PMID:?\s*(\d{6,9}))|(https?:\/\/[^\s<&]+[^\s<&.,;)])/g, (m, pm, id, url) => pm
+      ? `<a href="https://pubmed.ncbi.nlm.nih.gov/${id}/" target="_blank" rel="noopener" data-stop>${pm}</a>`
+      : `<a href="${url}" target="_blank" rel="noopener" data-stop>${url}</a>`);
     return s;
   }
 
