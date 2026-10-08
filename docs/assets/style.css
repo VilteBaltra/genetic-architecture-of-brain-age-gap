@@ -217,3 +217,7 @@ table.data { border-collapse: separate; border-spacing: 0; font-size: var(--fs-s
 .viewtoggle .btn { border-radius: 0; }
 .viewtoggle .btn:first-child { border-radius: var(--radius) 0 0 var(--radius); }
 .viewtoggle .btn:last-child { border-radius: 0 var(--radius) var(--radius) 0; margin-left: -1px; }
+
+.site-foot { max-width: 1600px; margin: 0 auto; padding-inline: max(16px, 2vw); padding-block: 1.5rem 2rem; border-top: 1px solid var(--line); }
+.site-foot p { margin: 0; max-width: 80ch; font-size: var(--fs-xs); color: var(--muted); }
+.site-foot a { color: inherit; }
