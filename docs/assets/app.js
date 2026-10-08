@@ -195,6 +195,9 @@
     if (st.sigCol === undefined) st.sigCol = t.mainP;
     const pLabel = (i) => (t.columns[i].group ? `${t.columns[i].group} · ` : "") + t.columns[i].name;
     const wide = t.columns.length > 10;
+    // Optional chart view, provided by assets/charts.js (remove that script to turn charts off).
+    const chart = window.SuppCharts && window.SuppCharts[t.id];
+    if (!chart) st.view = "table";
     main.innerHTML = `
       <div class="t-head">
         <span class="t-id">Table ${t.id}</span>
@@ -202,6 +205,10 @@
         <span class="t-meta">${t.rows.length.toLocaleString()} rows · ${t.columns.length} columns · click a row to see all its values</span>
       </div>
       <div class="toolbar">
+        ${chart ? `<div class="viewtoggle" role="group" aria-label="View">
+          <button class="btn ${st.view !== "chart" ? "on" : ""}" type="button" data-view="table" aria-pressed="${st.view !== "chart"}">Table</button>
+          <button class="btn ${st.view === "chart" ? "on" : ""}" type="button" data-view="chart" aria-pressed="${st.view === "chart"}">Chart</button>
+        </div>` : ""}
         <input id="tq" class="grow" type="search" placeholder="Search this table" value="${esc(st.q)}" autocomplete="off" spellcheck="false" aria-label="Search this table">
         <button id="filt" class="btn ${st.showFilters ? "on" : ""}" type="button" aria-pressed="${!!st.showFilters}">Filter columns</button>
         ${hasP ? `<span class="sigctl">
@@ -219,6 +226,7 @@
       </div>
       <p class="hint" id="hint" ${st.showFilters ? "" : "hidden"}>Type in the boxes under each heading. Numbers accept <code>&lt;0.05</code>, <code>&gt;=10</code> or a range like <code>1e-8..1e-5</code>. Start with <code>=</code> for an exact text match.</p>
       <div class="scroller" id="scroller"><table class="data" id="grid"></table></div>
+      <div class="chartwrap" id="chart" hidden></div>
       <div class="pager"><span class="status" id="status"></span><span class="btns" id="pagebtns"></span></div>
       <div class="legend" id="legend"></div>
       <div class="notes" id="notes"></div>`;
@@ -244,6 +252,12 @@
     });
     $("#reset").addEventListener("click", () => { state.delete(t.id); show(t.id, { scroll: false }); });
     $("#csv").addEventListener("click", () => downloadCSV(t, st));
+    if (chart) $(".viewtoggle").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-view]"); if (!b) return;
+      st.view = b.dataset.view;
+      document.querySelectorAll(".viewtoggle [data-view]").forEach((x) => { const on = x.dataset.view === st.view; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on); });
+      renderBody(t, st);
+    });
     $("#copylink").addEventListener("click", () => copyLink(t.id));
     if (wide) setupColumnMenu(t, st);
 
@@ -436,6 +450,21 @@
       st.page = p === "first" ? 0 : p === "prev" ? st.page - 1 : p === "next" ? st.page + 1 : pages - 1;
       renderBody(t, st); $("#scroller").scrollTop = 0;
     };
+
+    // Chart view: same filtered rows, drawn by assets/charts.js.
+    const chart = window.SuppCharts && window.SuppCharts[t.id];
+    const showChart = !!chart && st.view === "chart";
+    $("#scroller").hidden = showChart;
+    $("#chart").hidden = !showChart;
+    ["#filt", "#colbtn"].forEach((sel) => { const el = $(sel); if (el) el.hidden = showChart; });
+    if (showChart) {
+      pb.innerHTML = "";
+      $("#hint").hidden = true;
+      $("#status").textContent = `Charting ${rows.length.toLocaleString()} of ${total.toLocaleString()} rows${filtered ? " (search and filters apply)" : ""}`;
+      chart.render($("#chart"), t, rows, st, { openDrawer: (r) => openDrawer(t, r), esc, isBlank });
+    } else {
+      $("#hint").hidden = !st.showFilters;
+    }
   }
 
   /* ---------- row drawer ---------- */
