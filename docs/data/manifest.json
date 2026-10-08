@@ -1,0 +1,308 @@
+{
+ "groups": [
+  {
+   "key": "cohorts",
+   "label": "ENIGMA cohorts"
+  },
+  {
+   "key": "gwas",
+   "label": "BAGHan GWAS"
+  },
+  {
+   "key": "factor",
+   "label": "BAG factor"
+  },
+  {
+   "key": "mr",
+   "label": "Mendelian randomisation"
+  },
+  {
+   "key": "pgs",
+   "label": "Polygenic scores"
+  },
+  {
+   "key": "phewas",
+   "label": "PheWAS"
+  },
+  {
+   "key": "other",
+   "label": "Other"
+  }
+ ],
+ "tables": [
+  {
+   "id": "S1",
+   "title": "Table S1. Cohort characteristics for ENIGMA's brain age gap GWAS",
+   "caption": "Cohort characteristics for ENIGMA's brain age gap GWAS",
+   "group": "cohorts",
+   "rows": 31,
+   "cols": 10
+  },
+  {
+   "id": "S2",
+   "title": "Table S2. Cohort descriptives for ENIGMA's brain age gap GWAS",
+   "caption": "Cohort descriptives for ENIGMA's brain age gap GWAS",
+   "group": "cohorts",
+   "rows": 30,
+   "cols": 12
+  },
+  {
+   "id": "S3",
+   "title": "Table S3. Sample image acquisition and pre-processing details for ENIGMA's brain age gap GWAS",
+   "caption": "Sample image acquisition and pre-processing details for ENIGMA's brain age gap GWAS",
+   "group": "cohorts",
+   "rows": 31,
+   "cols": 9
+  },
+  {
+   "id": "S4",
+   "title": "Table S4. Genotyping, quality control and imputation details for ENIGMA's brain age gap GWAS. 1 Imputation filter refers to the preprocessing stage. As part of this GWAS, a post-processing INFO filter > 0.6 was applied to all GWAS outputs, where available.",
+   "caption": "Genotyping, quality control and imputation details for ENIGMA's brain age gap GWAS. 1 Imputation filter refers to the preprocessing stage. As part of this GWAS, a post-processing INFO filter > 0.6 was applied to all GWAS outputs, where available.",
+   "group": "cohorts",
+   "rows": 31,
+   "cols": 14
+  },
+  {
+   "id": "S5",
+   "title": "Table S5. Independent genome-wide significant variants associated with BAGHan",
+   "caption": "Independent genome-wide significant variants associated with BAGHan",
+   "group": "gwas",
+   "rows": 32,
+   "cols": 16
+  },
+  {
+   "id": "S6",
+   "title": "Table S6. Characterisation of ENIGMA BAGHan 9 novel loci",
+   "caption": "Characterisation of ENIGMA BAGHan 9 novel loci",
+   "group": "gwas",
+   "rows": 9,
+   "cols": 4
+  },
+  {
+   "id": "S7",
+   "title": "Table S7. A total of 718 genes implicated via positional, eQTL or chromatic interaction mapping for BAGHan",
+   "caption": "A total of 718 genes implicated via positional, eQTL or chromatic interaction mapping for BAGHan",
+   "group": "gwas",
+   "rows": 718,
+   "cols": 23
+  },
+  {
+   "id": "S8",
+   "title": "Table S8. BAGHan genes mapped by all four methods: positional, eQTL, chromatin interaction and MAGMA gene-based test",
+   "caption": "BAGHan genes mapped by all four methods: positional, eQTL, chromatin interaction and MAGMA gene-based test",
+   "group": "gwas",
+   "rows": 57,
+   "cols": 10
+  },
+  {
+   "id": "S9",
+   "title": "Table S9. BAGHan performance metrics in brain age gap prediction",
+   "caption": "BAGHan performance metrics in brain age gap prediction",
+   "group": "cohorts",
+   "rows": 30,
+   "cols": 11
+  },
+  {
+   "id": "S10",
+   "title": "Table S10. Average gene expression (log2) across 54 tissues for genes linked to BAGHan (GTEx v8)",
+   "caption": "Average gene expression (log2) across 54 tissues for genes linked to BAGHan (GTEx v8)",
+   "group": "gwas",
+   "rows": 693,
+   "cols": 56
+  },
+  {
+   "id": "S11",
+   "title": "Table S11. FUMA's differentially expressed genes using GTEx v8 54 tissue types for BAGHan GWAS",
+   "caption": "FUMA's differentially expressed genes using GTEx v8 54 tissue types for BAGHan GWAS",
+   "group": "gwas",
+   "rows": 162,
+   "cols": 7
+  },
+  {
+   "id": "S12",
+   "title": "Table S12. FUMA's GWAS catalog results for BAGHan",
+   "caption": "FUMA's GWAS catalog results for BAGHan",
+   "group": "gwas",
+   "rows": 3474,
+   "cols": 37
+  },
+  {
+   "id": "S13",
+   "title": "Table S13. Genetic correlations between BAGHan and 33 health-related outcomes",
+   "caption": "Genetic correlations between BAGHan and 33 health-related outcomes",
+   "group": "gwas",
+   "rows": 33,
+   "cols": 7
+  },
+  {
+   "id": "S14",
+   "title": "Table S14. Genetic correlations across six brain age models",
+   "caption": "Genetic correlations across six brain age models",
+   "group": "factor",
+   "rows": 6,
+   "cols": 7
+  },
+  {
+   "id": "S15",
+   "title": "Table S15. Genes mapped by all four methods: positional, eQTL, chromatin interaction and MAGMA gene-based test",
+   "caption": "Genes mapped by all four methods: positional, eQTL, chromatin interaction and MAGMA gene-based test",
+   "group": "factor",
+   "rows": 32,
+   "cols": 10
+  },
+  {
+   "id": "S16",
+   "title": "Table S16. Genes implicated via positional, eQTL or chromatic interaction mapping",
+   "caption": "Genes implicated via positional, eQTL or chromatic interaction mapping",
+   "group": "factor",
+   "rows": 411,
+   "cols": 23
+  },
+  {
+   "id": "S17",
+   "title": "Table S17. Gene expression heatmap v8 54 tissue types using average expression per label (log2 transformed)",
+   "caption": "Gene expression heatmap v8 54 tissue types using average expression per label (log2 transformed)",
+   "group": "factor",
+   "rows": 392,
+   "cols": 56
+  },
+  {
+   "id": "S18",
+   "title": "Table S18. FUMA's differentially expressed genes using GTEx v8 54 tissue types",
+   "caption": "FUMA's differentially expressed genes using GTEx v8 54 tissue types",
+   "group": "factor",
+   "rows": 162,
+   "cols": 7
+  },
+  {
+   "id": "S19a",
+   "title": "Table S19. FUMA's enrichment of input genes in gene sets for BAG factor",
+   "caption": "FUMA's enrichment of input genes in gene sets for BAG factor",
+   "group": "factor",
+   "rows": 97,
+   "cols": 8
+  },
+  {
+   "id": "S19b",
+   "title": "Table S19. FUMA's GWAS catalog results for BAG factor",
+   "caption": "FUMA's GWAS catalog results for BAG factor",
+   "group": "factor",
+   "rows": 3197,
+   "cols": 37
+  },
+  {
+   "id": "S20",
+   "title": "Table S20. Genetic correlations between BAG factor and 33 health-related outcomes",
+   "caption": "Genetic correlations between BAG factor and 33 health-related outcomes",
+   "group": "factor",
+   "rows": 33,
+   "cols": 7
+  },
+  {
+   "id": "S21",
+   "title": "Table S21. Genetic correlations between BAG factor, BAG model-specific residuals and structural brain traits",
+   "caption": "Genetic correlations between BAG factor, BAG model-specific residuals and structural brain traits",
+   "group": "factor",
+   "rows": 105,
+   "cols": 12
+  },
+  {
+   "id": "S22",
+   "title": "Table S22. Forward Mendelian randomisation results: effects of 33 health outcomes on brain age gap using Two-Sample MR",
+   "caption": "Forward Mendelian randomisation results: effects of 33 health outcomes on brain age gap using Two-Sample MR",
+   "group": "mr",
+   "rows": 693,
+   "cols": 15
+  },
+  {
+   "id": "S23",
+   "title": "Table S23. Reverse Mendelian randomisation results: effects of brain age gap on 33 health outcomes using Two-Sample MR",
+   "caption": "Reverse Mendelian randomisation results: effects of brain age gap on 33 health outcomes using Two-Sample MR",
+   "group": "mr",
+   "rows": 693,
+   "cols": 15
+  },
+  {
+   "id": "S24",
+   "title": "Table S24. Forward and reverse Mendelian randomisation results after applying Steiger filtering",
+   "caption": "Forward and reverse Mendelian randomisation results after applying Steiger filtering",
+   "group": "mr",
+   "rows": 51,
+   "cols": 16
+  },
+  {
+   "id": "S25",
+   "title": "Table S25. Forward and reverse Mendelian randomisation results: effects of brain age gap on health outcomes using MRlap package",
+   "caption": "Forward and reverse Mendelian randomisation results: effects of brain age gap on health outcomes using MRlap package",
+   "group": "mr",
+   "rows": 8,
+   "cols": 14
+  },
+  {
+   "id": "S26",
+   "title": "Table S26. Descriptives for the Generation R trio sample",
+   "caption": "Descriptives for the Generation R trio sample",
+   "group": "pgs",
+   "rows": 57,
+   "cols": 3
+  },
+  {
+   "id": "S27",
+   "title": "Table S27.Descriptives for the UK Biobank hold-out sample used in polygenic score analysis",
+   "caption": "Descriptives for the UK Biobank hold-out sample used in polygenic score analysis",
+   "group": "pgs",
+   "rows": 4,
+   "cols": 8
+  },
+  {
+   "id": "S28",
+   "title": "Table S28. Prediction accuracy of polygenic scores for brain age gap in Generation R",
+   "caption": "Prediction accuracy of polygenic scores for brain age gap in Generation R",
+   "group": "pgs",
+   "rows": 3,
+   "cols": 8
+  },
+  {
+   "id": "S29",
+   "title": "Table S29. Prediction accuracy of polygenic scores for brain age gap in UK Biobank",
+   "caption": "Prediction accuracy of polygenic scores for brain age gap in UK Biobank",
+   "group": "pgs",
+   "rows": 28,
+   "cols": 12
+  },
+  {
+   "id": "S30",
+   "title": "Table S30. Association of polygenic scores for brain age gap with nine health outcomes in Generation R",
+   "caption": "Association of polygenic scores for brain age gap with nine health outcomes in Generation R",
+   "group": "pgs",
+   "rows": 9,
+   "cols": 8
+  },
+  {
+   "id": "S31",
+   "title": "Table S31. Summary of PheWAS association results across brain age gap (BAG) models by phenotypic category",
+   "caption": "Summary of PheWAS association results across brain age gap (BAG) models by phenotypic category",
+   "group": "phewas",
+   "rows": 90,
+   "cols": 9
+  },
+  {
+   "id": "S32",
+   "title": "Table S32. Phenome-wide association results for polygenic scores from different brain age gap GWASs",
+   "caption": "Phenome-wide association results for polygenic scores from different brain age gap GWASs",
+   "group": "phewas",
+   "rows": 6646,
+   "cols": 47
+  },
+  {
+   "id": "S33",
+   "title": "Table S33. Genetic trio models testing for direct and indirect genetic effects on child outcomes in Generation R",
+   "caption": "Genetic trio models testing for direct and indirect genetic effects on child outcomes in Generation R",
+   "group": "pgs",
+   "rows": 36,
+   "cols": 8
+  }
+ ],
+ "built": "2026-10-08",
+ "source": "bee389af-SM_Tables_BAGfactor_1.xlsx"
+}

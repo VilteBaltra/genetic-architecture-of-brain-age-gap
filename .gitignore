@@ -39,8 +39,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-docs/
 
 # translation temp files
 po/*~
@@ -48,3 +46,4 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 .DS_Store
+8.Revision/
