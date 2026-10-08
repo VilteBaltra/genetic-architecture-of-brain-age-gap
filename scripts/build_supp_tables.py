@@ -36,7 +36,7 @@ import openpyxl
 # second and later ones get a letter suffix in sheet order (S19a, S19b).
 GROUPS = [
     ("cohorts", "ENIGMA cohorts", ["S1", "S2", "S3", "S4", "S9"]),
-    ("gwas", "BAGHan GWAS", ["S5", "S6", "S7", "S8", "S10", "S11", "S12", "S13"]),
+    ("gwas", "BAG Han GWAS", ["S5", "S6", "S7", "S8", "S10", "S11", "S12", "S13"]),
     ("factor", "BAG factor", ["S14", "S15", "S16", "S17", "S18", "S19a", "S19b", "S20", "S21"]),
     ("mr", "Mendelian randomisation", ["S22", "S23", "S24", "S25"]),
     ("pgs", "Polygenic scores", ["S26", "S27", "S28", "S29", "S30", "S33"]),
