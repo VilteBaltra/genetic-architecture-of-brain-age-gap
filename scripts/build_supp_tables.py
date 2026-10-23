@@ -33,14 +33,15 @@ import openpyxl
 
 # Sidebar groups, in display order. Table IDs follow the sheet names
 # ("Table S5 ..." -> "S5"). If two sheets carry the same number, the
-# second and later ones get a letter suffix in sheet order (S19a, S19b).
+# second and later ones get a letter suffix in sheet order (e.g. S19a, S19b).
 GROUPS = [
-    ("cohorts", "ENIGMA cohorts", ["S1", "S2", "S3", "S4", "S9"]),
-    ("gwas", "BAG Han GWAS", ["S5", "S6", "S7", "S8", "S10", "S11", "S12", "S13"]),
-    ("factor", "BAG factor", ["S14", "S15", "S16", "S17", "S18", "S19a", "S19b", "S20", "S21"]),
-    ("mr", "Mendelian randomisation", ["S22", "S23", "S24", "S25"]),
-    ("pgs", "Polygenic scores", ["S26", "S27", "S28", "S29", "S30", "S33"]),
-    ("phewas", "PheWAS", ["S31", "S32"]),
+    ("cohorts", "ENIGMA cohorts", ["S1", "S2", "S3", "S4"]),
+    ("gwas", "BAG Han GWAS", ["S5", "S6", "S7", "S8", "S9", "S10", "S11", "S12", "S13"]),
+    ("factor", "BAG factor", ["S14", "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22"]),
+    ("mr", "Mendelian randomisation", ["S23", "S24", "S25", "S26"]),
+    ("pgs", "Polygenic scores", ["S27", "S28", "S29", "S30", "S31"]),
+    ("phewas", "PheWAS", ["S32", "S33"]),
+    ("trio", "Genetic trio models", ["S34"]),
 ]
 
 # Per-table layout. Row numbers are 1-based Excel rows.
@@ -56,14 +57,14 @@ TABLES = {
     "S1": dict(group=3, header=4, first_section="Discovery cohorts"),
     "S2": dict(group=3, header=4),
     "S3": dict(header=3, first_section="Discovery cohorts"),
-    "S4": dict(group=3, header=4, first_section="Discovery cohorts"),
+    "S4": dict(group=3, header=4, first_section="Discovery cohorts", notes_from=42),
     "S5": dict(group=3, header=4),
     "S6": dict(header=3, notes_from=15),
     "S9": dict(group=3, header=4),
     "S14": dict(header=3, heatmap="seq"),
-    "S26": dict(header=4, start_col=2),
-    "S29": dict(group=3, header=4, filldown=[0]),
-    "S32": dict(group=2, header=3),
+    "S27": dict(header=4, start_col=2),
+    "S30": dict(group=3, header=4, filldown=[0]),
+    "S33": dict(group=2, header=3),
 }
 DEFAULT = dict(header=3)
 

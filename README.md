@@ -15,9 +15,9 @@ This repository contains scripts and workflows for estimating **brain age gaps (
 
 ## Interactive supplementary tables
 
-All supplementary tables from the paper are available as a searchable website. You can search across every table at once (for a gene, SNP, trait or cohort), sort and filter columns, keep only rows with p < 0.05, link directly to a table (for example [`#S24`](https://viltebaltra.github.io/genetic-architecture-of-brain-age-gap/#S24)), and download any table as CSV or the full workbook as Excel.
+All supplementary tables from the paper are available as a searchable website. You can search across every table at once (for a gene, SNP, trait or cohort), sort and filter columns, keep only rows with p < 0.05, link directly to a table (for example [`#S25`](https://viltebaltra.github.io/genetic-architecture-of-brain-age-gap/#S25)), and download any table as CSV or the full workbook as Excel.
 
-<a href="https://viltebaltra.github.io/genetic-architecture-of-brain-age-gap/"><img src="docs/assets/readme-preview.png" width="80%" alt="Screenshot of the interactive supplementary tables website showing Table S24"></a>
+<a href="https://viltebaltra.github.io/genetic-architecture-of-brain-age-gap/"><img src="docs/assets/readme-preview.png" width="80%" alt="Screenshot of the interactive supplementary tables website showing Table S25"></a>
 
 ---
 

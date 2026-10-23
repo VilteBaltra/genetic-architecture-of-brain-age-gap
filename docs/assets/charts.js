@@ -185,7 +185,7 @@
   let last = null, rt;
   window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (last && document.body.contains(last[0]) && !last[0].hidden) last[5](...last.slice(0, 5)); }, 150); });
 
-  /* ---------- LDSC genetic correlations (S13, S20) ---------- */
+  /* ---------- LDSC genetic correlations (S13, S21) ---------- */
   function ldsc(el, t, rows, st, helpers) {
     last = [el, t, rows, st, helpers, ldsc];
     el.innerHTML = "";
@@ -214,7 +214,7 @@
     }, helpers);
   }
 
-  /* ---------- Mendelian randomisation (S22, S23, S24) ---------- */
+  /* ---------- Mendelian randomisation (S23, S24, S25) ---------- */
   const METHODS = [
     { key: "inverse variance weighted", label: "Inverse variance weighted", shape: "circle" },
     { key: "mr egger", label: "MR Egger", shape: "diamond" },
@@ -315,7 +315,7 @@
   const colG = (t, group, name) => t.columns.findIndex((c) => (c.group || "").toLowerCase().includes(group.toLowerCase()) && c.name.toLowerCase() === name.toLowerCase());
   const pct = (v) => (v * 100).toFixed(v * 100 < 0.1 ? 3 : 2) + "%";
 
-  /* ---------- PGS prediction by ancestry (S29) ---------- */
+  /* ---------- PGS prediction by ancestry (S30) ---------- */
   function pgs(el, t, rows, st, helpers) {
     last = [el, t, rows, st, helpers, pgs];
     el.innerHTML = "";
@@ -389,7 +389,7 @@
     attachTip(el, sv, (x, y) => hits.find((h) => x >= h.x1 && x <= h.x2 && y >= h.y1 && y <= h.y2), helpers);
   }
 
-  /* ---------- PheWAS (S32) ---------- */
+  /* ---------- PheWAS (S33) ---------- */
   function phewas(el, t, rows, st, helpers) {
     last = [el, t, rows, st, helpers, phewas];
     el.innerHTML = "";
@@ -483,11 +483,11 @@
 
   window.SuppCharts = {
     S13: { render: ldsc },
-    S20: { render: ldsc },
-    S22: { render: mr },
+    S21: { render: ldsc },
     S23: { render: mr },
     S24: { render: mr },
-    S29: { render: pgs },
-    S32: { render: phewas },
+    S25: { render: mr },
+    S30: { render: pgs },
+    S33: { render: phewas },
   };
 })();
